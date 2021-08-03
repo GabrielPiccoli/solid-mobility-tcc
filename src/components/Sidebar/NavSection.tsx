@@ -10,7 +10,7 @@ export function NavSection({ title, children}: NavSectionProps) {
   return (
     <Box>
       <Text fontWeight="bold" color="lightgray" fontSize="small">{title}</Text>
-      <Stack spacing="4" mt="8" align="stretch">
+      <Stack spacing="2" mt="2" align="stretch">
         {children}
       </Stack>
     </Box>

@@ -10,7 +10,7 @@ export function NotificationNav() {
       py="1"
       color="blue.400"
       borderRightWidth={1}
-      borderColor="blue.500"
+      borderColor="gray.500"
     >
       <Icon as={AiOutlineBell} fontSize="20" />
     </HStack>
