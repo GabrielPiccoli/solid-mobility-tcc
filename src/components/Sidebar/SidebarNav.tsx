@@ -8,23 +8,23 @@ export function SidebarNav() {
   return(
     <Stack spacing="4" align="flex-start">
       <NavSection title="PASSAGEIROS">
-        <NavLink href="/passageiros/listar" icon={AiOutlineUnorderedList}>Listar</NavLink>
+        <NavLink href="/passageiros" icon={AiOutlineUnorderedList}>Listar</NavLink>
         <NavLink href="/passageiros/adicionar" icon={AiOutlineUserAdd}>Adicionar</NavLink>
       </NavSection>
 
       <NavSection title="MOTORISTAS">
-        <NavLink href="" icon={AiOutlineUnorderedList}>Listar</NavLink>
-        <NavLink href="" icon={AiOutlineUser}>Adicionar</NavLink>
+        <NavLink href="/motoristas" icon={AiOutlineUnorderedList}>Listar</NavLink>
+        <NavLink href="/motoristas/adicionar" icon={AiOutlineUser}>Adicionar</NavLink>
       </NavSection>
 
       <NavSection title="VEÍCULOS">
-        <NavLink href="" icon={AiOutlineUnorderedList}>Listar</NavLink>
-        <NavLink href="" icon={AiOutlineCar}>Adicionar</NavLink>
+        <NavLink href="/vans" icon={AiOutlineUnorderedList}>Listar</NavLink>
+        <NavLink href="/vans/adicionar" icon={AiOutlineCar}>Adicionar</NavLink>
       </NavSection>
 
       <NavSection title="ROTAS">
-        <NavLink href="" icon={AiOutlineUnorderedList}>Listar</NavLink>
-        <NavLink href="" icon={FaRoute}>Adicionar</NavLink>
+        <NavLink href="/rotas" icon={AiOutlineUnorderedList}>Listar</NavLink>
+        <NavLink href="/rotas/adicionar" icon={FaRoute}>Adicionar</NavLink>
       </NavSection>
     </Stack>
   )
