@@ -4,29 +4,33 @@ import { TableWideVersion } from "../../components/Table/TableWideVersion"
 import { TableMobileVersion } from "../../components/Table/TableMobileVersion"
 import { FlexContainer } from "../../components/FlexContainer"
 
-export default function Van() {
+export default function Rota() {
   const isWideVersion = useBreakpointValue({
     base: false,
     xl: true
   })
 
-  const headersWideVersion = ["Placa", "Ano", "Marca"]
+  const headersWideVersion = ["Nome", "Destino", "Passageiros", "Horário"]
   const bodyContentWideVersion = [
-    {data: ["FJG0380", "2015", "Renault"]},
-    {data: ["DFR2687", "2018", "Pegeout"]}
+    {data: ["Capivari", "IFSP - Capivari", "15", "Noturno"]},
+    {data: ["Piracicaba", "Colégio Lorem Ipsum", "12", "Matutino"]}
   ]
   const bodyContentMobileVersion = [
     {
-      title: "Placa",
-      content: "FJG0380"
+      title: "Nome",
+      content: "Capivari"
     },
     {
-      title: "Ano",
-      content: "2015",
+      title: "Destino",
+      content: "IFSP - Capivari",
     },
     {
-      title: "Marca",
-      content: "Renault"
+      title: "Passageiros",
+      content: "15"
+    },
+    {
+      title: "Horário",
+      content: "Noturno"
     },
   ]
 
@@ -34,7 +38,7 @@ export default function Van() {
     <Box> 
       <Header />
       <Divider />
-      <FlexContainer title="Vans" createLink="/vans/adicionar">
+      <FlexContainer title="Rotas" createLink="/rotas/adicionar">
         {isWideVersion ? (
           <TableWideVersion 
             showProfile={false}
@@ -50,8 +54,8 @@ export default function Van() {
               editLink="/vans/editar"
               deleteLink="/vans/excluir"
             />
-        )}
-      </FlexContainer>
+        )}  
+      </FlexContainer> 
     </Box>
   )
 }

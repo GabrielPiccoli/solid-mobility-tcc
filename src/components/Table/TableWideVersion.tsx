@@ -20,8 +20,8 @@ export function TableWideVersion({ headers, bodyData, editLink, deleteLink, show
     <Table colorScheme="whiteAlpha" {...rest}>
       <Thead>
         <Tr>
-          {headers.map(header => (
-            <Th>{header}</Th>
+          {headers.map((header, i) => (
+            <Th key={i}>{header}</Th>
           ))}
           <Th></Th>
         </Tr>
@@ -30,8 +30,8 @@ export function TableWideVersion({ headers, bodyData, editLink, deleteLink, show
         {bodyData.map((body, i) => (
           <Tr key={i}>
             {showProfile && <Td><Profile isLeft showProfileData={true} /></Td>}
-            {body.data.map((content, i) => (
-              <Td key={i}><Text>{content}</Text></Td>
+            {body.data.map((content, j) => (
+              <Td key={j}><Text>{content}</Text></Td>
             ))}
             <Td w="155px">
               <LinkNext href={editLink} passHref>
