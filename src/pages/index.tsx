@@ -48,8 +48,8 @@ export default function SignIn() {
           })}
         </HStack>
         <Stack mt="4" spacing="4">
-          <Input name="email" type="email" label="E-mail" error={errors.email} {...register('email')} />
-          <Input name="password" type="password" label="Senha" error={errors.password} {...register('password')} />
+          <Input type="email" label="E-mail" error={errors.email} {...register('email')} />
+          <Input type="password" label="Senha" error={errors.password} {...register('password')} />
         </Stack>
 
         <Button type="submit" mt="6" colorScheme="blue" size="lg" isLoading={formState.isSubmitting} >Entrar</Button>

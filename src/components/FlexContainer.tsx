@@ -7,7 +7,7 @@ import { ReactElement } from "react";
 
 interface FlexContainerProps extends FlexProps {
   title: string
-  createLink: string
+  createLink?: string
   children: ReactElement
 }
 
@@ -24,28 +24,30 @@ export function FlexContainer({ title, createLink, children, ...rest}: FlexConta
         <Flex mb="8" justify="space-between" align="center">
           <Title text={title} />
 
-          <LinkNext href={createLink} passHref>
-            { isWideVersion ? (
-              <Button
-                as="a"
-                size="sm"
-                fontSize="sm"
-                colorScheme="blue"
-                leftIcon={<Icon as={AiOutlinePlus} fontSize="20" />}
-              >
-                Adicionar
-              </Button>
-            ) : (
-              <Button
-                as="a"
-                size="sm"
-                fontSize="sm"
-                colorScheme="blue"
+          {createLink && (
+            <LinkNext href={createLink} passHref>
+              { isWideVersion ? (
+                <Button
+                  as="a"
+                  size="sm"
+                  fontSize="sm"
+                  colorScheme="blue"
+                  leftIcon={<Icon as={AiOutlinePlus} fontSize="20" />}
                 >
-                <Icon as={AiOutlinePlus} fontSize="20" />
-              </Button>
-            )}
-          </LinkNext>
+                  Adicionar
+                </Button>
+              ) : (
+                <Button
+                  as="a"
+                  size="sm"
+                  fontSize="sm"
+                  colorScheme="blue"
+                  >
+                  <Icon as={AiOutlinePlus} fontSize="20" />
+                </Button>
+              )}
+            </LinkNext>
+          )}
         </Flex>
         {children}
       </Box>

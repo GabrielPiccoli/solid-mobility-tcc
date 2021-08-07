@@ -5,11 +5,22 @@ interface TitleProps extends HeadingProps {
 }
 
 export function Title({ text, ...rest}: TitleProps) {
-  const firstLetter = text.substr(0, 1)
-  const restOfWord = text.substr(1)
+  const words = text.split(' ')
+  let firstLetters: String[] = []
+  const restOfWords: String[] = []
+  words.forEach(word => {
+    firstLetters.push(word.substr(0, 1))
+    restOfWords.push(word.substr(1))
+  })
   return (
     <Heading size="lg" {...rest}>
-      <Text as="span" color="blue.500">{firstLetter}</Text>{restOfWord}
+      {words.map((word, i) => (
+          <>
+            <Text as="span" key={word} color="blue.500">{firstLetters[i]}</Text>
+            {restOfWords[i]}
+            { i < (words.length - 1) && " "}
+          </>
+      ))}
     </Heading>
   )
 }
