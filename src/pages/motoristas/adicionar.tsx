@@ -5,33 +5,32 @@ import * as yup from 'yup'
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "../../components/Form/Input";
-import { Select } from "../../components/Form/Select";
 
-type AddPassengerFormData = {
-  nome: String
-  cpf: String
-  email: String
+type AddDriverFormData = {
+  nome: string
+  cpf: string
+  email: string
   nascimento: Date
-  ponto: Number
-  destino: Number
+  cnh: string
+  categoriaCnh: string
 }
 
-const AddPassengerSchema = yup.object().shape({
+const AddDriverSchema = yup.object().shape({
   nome: yup.string().required('Nome obrigatório'),
   cpf: yup.string().required('CPF obrigatório'),
   email: yup.string().required('E-mail obrigatório').email('E-mail inválido'),
   nascimento: yup.date().required('Date de nascimento obrigatória'),
-  ponto: yup.number().required('Ponto obrigatório'),
-  destino: yup.number().required('Destino obrigatório')
+  cnh: yup.string().required('CNH obrigatória'),
+  categoriaCnh: yup.string().required('Categoria da CNH obrigatória')
 }) 
 
-export default function AdicionarPassageiro() {
+export default function AdicionarMotorista() {
   const { register, handleSubmit, formState } = useForm({
-    resolver: yupResolver(AddPassengerSchema)
+    resolver: yupResolver(AddDriverSchema)
   })
 
   const { errors } = formState
-  const handleAddPassenger: SubmitHandler<AddPassengerFormData> = (values) => {
+  const handleAddDriver: SubmitHandler<AddDriverFormData> = (values) => {
     console.log(values)
   }
 
@@ -39,20 +38,14 @@ export default function AdicionarPassageiro() {
     <Box>
       <Header />
       <Divider />
-      <FlexContainer title="Adicionar Passageiro" onSubmit={handleSubmit(handleAddPassenger)}>
+      <FlexContainer title="Adicionar Motorista" onSubmit={handleSubmit(handleAddDriver)}>
         <Flex as="form" wrap="wrap" justify="space-between" sx={{ gap: "1em 0"}}>
           <Input type="text" label="Nome" maxW={["100%", "48%"]} error={ errors.nome } {...register('nome')} />
           <Input type="text" label="CPF" maxW={["100%", "48%"]} error={ errors.cpf } {...register('cpf')} />
           <Input type="email" label="E-mail" maxW={["100%", "48%"]} error={ errors.email } {...register('email')} />
           <Input type="date" label="Data de Nascimento" maxW={["100%", "48%"]} error={ errors.nascimento } {...register('nascimento')} />
-          <Select label="Ponto" maxW={["100%", "48%"]} error={ errors.ponto} {...register('ponto')}>
-            <option value="1">Rua Luiz Razera</option>
-            <option value="2">Rua Professora Carolina Mendes Thame</option>
-          </Select>
-          <Select label="Destino" maxW={["100%", "48%"]} error={ errors.destino} {...register('destino')}>
-            <option value="1">Rua Luiz Razera</option>
-            <option value="2">Rua Professora Carolina Mendes Thame</option>
-          </Select>
+          <Input type="text" label="CNH" maxW={["100%", "48%"]} error={ errors.cnh } {...register('cnh')} />
+          <Input type="text" label="Categoria CNH" maxW={["100%", "48%"]} error={ errors.categoriaCnh } {...register('categoriaCnh')} />
 
           <Button type="submit" mt="6" colorScheme="blue" size="lg" isLoading={formState.isSubmitting} >Salvar</Button>
         </Flex>
