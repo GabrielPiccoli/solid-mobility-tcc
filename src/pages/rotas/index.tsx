@@ -3,6 +3,8 @@ import { Header } from "../../components/Header"
 import { TableWideVersion } from "../../components/Table/TableWideVersion"
 import { TableMobileVersion } from "../../components/Table/TableMobileVersion"
 import { FlexContainer } from "../../components/FlexContainer"
+import { GetServerSideProps } from "next"
+import { withSSRAuth } from "../../utils/withSSRAuth"
 
 export default function Rota() {
   const isWideVersion = useBreakpointValue({
@@ -59,3 +61,9 @@ export default function Rota() {
     </Box>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})

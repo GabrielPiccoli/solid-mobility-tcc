@@ -3,8 +3,13 @@ import { Header } from "../../components/Header"
 import { TableWideVersion } from "../../components/Table/TableWideVersion"
 import { TableMobileVersion } from "../../components/Table/TableMobileVersion"
 import { FlexContainer } from "../../components/FlexContainer"
+import { useContext } from "react"
+import { AuthContext } from "../../contexts/AuthContext"
+import { GetServerSideProps } from "next"
+import { withSSRAuth } from "../../utils/withSSRAuth"
 
 export default function Van() {
+  const { user } = useContext(AuthContext)
   const isWideVersion = useBreakpointValue({
     base: false,
     xl: true
@@ -34,6 +39,7 @@ export default function Van() {
     <Box> 
       <Header />
       <Divider />
+      { user.email }
       <FlexContainer title="Vans" createLink="/vans/adicionar">
         {isWideVersion ? (
           <TableWideVersion 
@@ -55,3 +61,9 @@ export default function Van() {
     </Box>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})

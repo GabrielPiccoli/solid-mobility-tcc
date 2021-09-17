@@ -7,6 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "../../components/Form/Input";
 import { Select } from "../../components/Form/Select";
 import { ChangeEvent, useState } from "react";
+import { GetServerSideProps } from "next";
+import { withSSRAuth } from "../../utils/withSSRAuth";
 
 type AddRouteFormData = {
   nome: string
@@ -85,3 +87,9 @@ export default function AdicionarRota() {
     </Box>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})

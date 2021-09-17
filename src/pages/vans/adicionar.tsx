@@ -5,6 +5,8 @@ import * as yup from 'yup'
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "../../components/Form/Input";
+import { GetServerSideProps } from "next";
+import { withSSRAuth } from "../../utils/withSSRAuth";
 
 type AddVanFormData = {
   placa: string
@@ -47,3 +49,9 @@ export default function AdicionarVan() {
     </Box>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})

@@ -6,6 +6,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "../../components/Form/Input";
 import { Select } from "../../components/Form/Select";
+import { GetServerSideProps } from "next";
+import { withSSRAuth } from "../../utils/withSSRAuth";
 
 type AddPassengerFormData = {
   nome: String
@@ -60,3 +62,9 @@ export default function AdicionarPassageiro() {
     </Box>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})

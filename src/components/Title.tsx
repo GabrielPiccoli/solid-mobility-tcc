@@ -16,7 +16,7 @@ export function Title({ text, ...rest}: TitleProps) {
     <Heading size="lg" {...rest}>
       {words.map((word, i) => (
           <>
-            <Text as="span" key={word} color="blue.500">{firstLetters[i]}</Text>
+            <Text as="span" key={i} color="blue.500">{firstLetters[i]}</Text>
             {restOfWords[i]}
             { i < (words.length - 1) && " "}
           </>
