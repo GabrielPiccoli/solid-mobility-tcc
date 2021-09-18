@@ -3,19 +3,15 @@ import { Profile } from "../Header/Profile";
 import LinkNext from 'next/link'
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 
-type DataContent = {
-  title: string
-  content: string
-}
-
 interface TableMobileVersion { 
-  data: DataContent[]
+  data: string[]
+  headers: string[]
   editLink: string
   deleteLink: string
   showProfile?: boolean
 }
 
-export function TableMobileVersion({data, editLink, deleteLink, showProfile = true}: TableMobileVersion) {
+export function TableMobileVersion({data, headers, editLink, deleteLink, showProfile = true}: TableMobileVersion) {
   return (
     <Box bg="gray.700" p="4" my="2" borderRadius="8" borderTopWidth={3} borderTopColor="blue.500">
       {showProfile && <Profile isLeft />}
@@ -24,8 +20,8 @@ export function TableMobileVersion({data, editLink, deleteLink, showProfile = tr
         <Tbody>
           {data.map((content, i) => (
             <Tr key={i}>
-              <Td color="gray.400">{content.title}</Td>
-              <Td>{content.content}</Td>
+              <Td color="gray.400">{headers[i]}</Td>
+              <Td>{content}</Td>
             </Tr>
           ))}
         </Tbody>

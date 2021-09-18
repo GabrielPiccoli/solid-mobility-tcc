@@ -15,11 +15,11 @@ export function Title({ text, ...rest}: TitleProps) {
   return (
     <Heading size="lg" {...rest}>
       {words.map((word, i) => (
-          <>
-            <Text as="span" key={i} color="blue.500">{firstLetters[i]}</Text>
+          <span key={i}>
+            <Text as="span" color="blue.500">{firstLetters[i]}</Text>
             {restOfWords[i]}
             { i < (words.length - 1) && " "}
-          </>
+          </span>
       ))}
     </Heading>
   )

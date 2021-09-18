@@ -1,13 +1,11 @@
-import { Button, Flex, HStack, Image, Stack, useRadioGroup } from "@chakra-ui/react";
+import { Button, Flex, Image, Stack } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { RadioButton } from "../components/Form/RadioButton";
 import { Input } from "../components/Form/Input";
 import { AuthContext } from "../contexts/AuthContext";
 import { GetServerSideProps } from "next";
-import { parseCookies } from "nookies";
 import { withSSRGuest } from "../utils/withSSRGuest";
 
 type SignInFormData = {

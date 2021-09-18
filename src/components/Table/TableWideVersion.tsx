@@ -5,6 +5,7 @@ import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 
 type bodyContent = {
   data: string[]
+  id: string
 }
 
 interface TableWideVersion extends TableProps {
@@ -34,32 +35,28 @@ export function TableWideVersion({ headers, bodyData, editLink, deleteLink, show
               <Td key={j}><Text>{content}</Text></Td>
             ))}
             <Td w="155px">
-              <LinkNext href={editLink} passHref>
-                <Tooltip hasArrow label="Editar" bg="blue.500" color="black">
-                  <Button
-                    as="a"
-                    size="sm"
-                    fontSize="sm"
-                    colorScheme="yellow"
-                    textAlign="center"
-                  >
-                    <Icon as={AiOutlineEdit} fontSize="20" />
-                  </Button>
-                </Tooltip>
+              <LinkNext href={`${editLink}/${body.id}`} passHref>
+                <Button
+                  as="a"
+                  size="sm"
+                  fontSize="sm"
+                  colorScheme="yellow"
+                  textAlign="center"
+                >
+                  <Icon as={AiOutlineEdit} fontSize="20" />
+                </Button>
               </LinkNext>
-              <LinkNext href={deleteLink} passHref>
-                <Tooltip hasArrow label="Deletar" bg="blue.500" color="black">
-                  <Button
-                    as="a"
-                    size="sm"
-                    fontSize="sm"
-                    colorScheme="red"
-                    textAlign="center"
-                    ml={4}
-                  >
-                    <Icon as={AiOutlineDelete} fontSize="20" />
-                  </Button>
-                </Tooltip>
+              <LinkNext href={`${deleteLink}/${body.id}`} passHref>
+                <Button
+                  as="a"
+                  size="sm"
+                  fontSize="sm"
+                  colorScheme="red"
+                  textAlign="center"
+                  ml={4}
+                >
+                  <Icon as={AiOutlineDelete} fontSize="20" />
+                </Button>
               </LinkNext>
             </Td>
           </Tr>
