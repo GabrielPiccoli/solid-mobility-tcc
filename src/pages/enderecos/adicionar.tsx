@@ -71,8 +71,10 @@ export default function AdicionarEndereco() {
           <Input type="text" label="Bairro" maxW={["100%", "48%"]} error={ errors.bairro } {...register('bairro')} />
           <Input type="text" label="Cidade" maxW={["100%", "48%"]} error={ errors.cidade } {...register('cidade')} />
           <Input type="text" label="Estado" maxW={["100%", "48%"]} error={ errors.estado } {...register('estado')} />
-
-          <Button type="submit" mt="6" colorScheme="blue" size="lg" isLoading={formState.isSubmitting} >Salvar</Button>
+          
+          <Flex w="100%">
+            <Button type="submit" mt="6" colorScheme="blue" size="lg" isLoading={formState.isSubmitting} >Salvar</Button>
+          </Flex>
         </Flex>
       </FlexContainer>
     </Box>

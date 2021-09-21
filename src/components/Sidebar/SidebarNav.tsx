@@ -12,11 +12,6 @@ export function SidebarNav() {
         <NavLink href="/passageiros/adicionar" icon={AiOutlineUserAdd}>Adicionar</NavLink>
       </NavSection>
 
-      <NavSection title="MOTORISTAS">
-        <NavLink href="/motoristas" icon={AiOutlineUnorderedList}>Listar</NavLink>
-        <NavLink href="/motoristas/adicionar" icon={AiOutlineUser}>Adicionar</NavLink>
-      </NavSection>
-
       <NavSection title="VEÍCULOS">
         <NavLink href="/vans" icon={AiOutlineUnorderedList}>Listar</NavLink>
         <NavLink href="/vans/adicionar" icon={AiOutlineCar}>Adicionar</NavLink>
