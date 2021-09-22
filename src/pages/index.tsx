@@ -1,4 +1,4 @@
-import { Button, Flex, Image, Stack } from "@chakra-ui/react";
+import { Button, Flex, Image, Stack, Link, Divider, Text, Box } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from 'yup'
@@ -40,6 +40,23 @@ export default function SignIn() {
 
         <Button type="submit" mt="6" colorScheme="blue" size="lg" isLoading={formState.isSubmitting} >Entrar</Button>
       </Flex>
+      <Box pos="relative">
+        <Divider w="300px" my={8} />
+        <Text
+          as="span"
+          pos="absolute"
+          top="50%"
+          left="50%"
+          transform="translate(-50%, -50%)"
+          bg="gray.900"
+          p={2}
+        >
+          OU
+        </Text>
+      </Box>
+      <Link href="/cadastro" passHref>
+        <Button type="submit" w="300px" colorScheme="green" size="lg">Cadastre-se</Button>
+      </Link>
 
     </Flex>
   )

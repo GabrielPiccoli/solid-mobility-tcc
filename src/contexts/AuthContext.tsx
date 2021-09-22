@@ -1,11 +1,13 @@
 import Router from "next/router"
-import { useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { createContext, ReactNode } from "react"
 import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import { api } from "../services/apiClient"
 
 type User = {
+  nome: string
   email: string
+  cnh: string
 }
 
 type SignInCredentials = {
@@ -17,6 +19,7 @@ type AuthContextData = {
   signIn(credentials: SignInCredentials): Promise<void>
   user: User
   isAuthenticated: boolean
+  setUser: Dispatch<SetStateAction<User>>
 }
 
 type AuthProviderProps = {
@@ -41,8 +44,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (token) {
       api.get('/me')
         .then(response => {
-          const { email } = response.data
-          setUser({ email })
+          const { nome, email, cnh } = response.data
+          setUser({
+            nome,
+            email,
+            cnh
+          })
         })
         .catch(error => {
           signOut()
@@ -59,7 +66,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         maxAge: 60 * 60 * 24,
         path: '/'
       })
-      setUser({ email })
 
       api.defaults.headers['Authorization'] = `Bearer ${token}`
       
@@ -70,7 +76,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   return (
-    <AuthContext.Provider value={{ signIn, isAuthenticated, user }}>
+    <AuthContext.Provider value={{ signIn, isAuthenticated, user, setUser }}>
       { children }
     </AuthContext.Provider>
   )

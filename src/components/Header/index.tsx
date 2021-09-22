@@ -4,8 +4,12 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import { NotificationNav } from "./NotificationsNav";
 import { Profile } from "./Profile";
 import { Logo } from "./Logo";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import router from "next/router";
 
 export function Header() {
+  const { user } = useContext(AuthContext)
   const { onOpen } = useSidebarDrawer()
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -38,9 +42,17 @@ export function Header() {
 
       <Logo />
 
-      <Flex align="center" ml="auto">
-        <NotificationNav />
-        <Profile showProfileData={isWideVersion} />
+      <Flex
+        align="center"
+        ml="auto"
+        onClick={() => router.push('/motoristas/editar')}
+        cursor="pointer"
+      >
+        {/* <NotificationNav /> */}
+        <Profile
+          showProfileData={isWideVersion}
+          profileUser={user}
+        />
       </Flex>
     </Flex>
   )
