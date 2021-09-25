@@ -2,7 +2,7 @@ import { Stack } from "@chakra-ui/react";
 import { NavLink } from "./NavLink";
 import { NavSection } from "./NavSection";
 import { AiOutlineUnorderedList, AiOutlineUserAdd, AiOutlineCar, AiOutlineUser } from 'react-icons/ai'
-import { FaMapPin, FaRoute } from 'react-icons/fa'
+import { FaMapPin, FaMapSigns, FaRoute } from 'react-icons/fa'
 
 export function SidebarNav() {
   return(
@@ -25,6 +25,11 @@ export function SidebarNav() {
       <NavSection title="ENDEREÇOS">
         <NavLink href="/enderecos" icon={AiOutlineUnorderedList}>Listar</NavLink>
         <NavLink href="/enderecos/adicionar" icon={FaMapPin}>Adicionar</NavLink>
+      </NavSection>
+
+      <NavSection title="PARADAS">
+        <NavLink href="/paradas" icon={AiOutlineUnorderedList}>Listar</NavLink>
+        <NavLink href="/paradas/adicionar" icon={FaMapSigns}>Adicionar</NavLink>
       </NavSection>
     </Stack>
   )
