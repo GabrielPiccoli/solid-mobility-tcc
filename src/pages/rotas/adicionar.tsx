@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Flex } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Alert, AlertIcon, AlertTitle, CloseButton } from "@chakra-ui/react";
 import { FlexContainer } from "../../components/FlexContainer";
 import { Header } from "../../components/Header";
 import * as yup from 'yup'
@@ -9,78 +9,79 @@ import { Select } from "../../components/Form/Select";
 import { ChangeEvent, useState } from "react";
 import { GetServerSideProps } from "next";
 import { withSSRAuth } from "../../utils/withSSRAuth";
+import { useQuery } from "react-query";
+import { api } from "../../services/apiClient";
+import { createRota } from "../../services/rotas/adicionarRota";
 
 type AddRouteFormData = {
-  nome: string
-  destino: number
-  qtdePassageiros: number
-  horario: string
+  descricao: string
+  van_id: string
+}
+
+type Van = {
+  id: string
+  placa: string
+  lotacao: number
+  marca: string
 }
 
 const AddRouteSchema = yup.object().shape({
-  nome: yup.string().required('Nome obrigatório'),
-  destino: yup.number().required('Destino obrigatório'),
-  qtdePassageiros: yup.number().required('Quantidade de Passageiros obrigatório'),
-  horario: yup.string().required('Horário obrigatório'),
-  // passageiros: yup.string().required('Passageiros obrigatório')
+  descricao: yup.string().required('Descrição obrigatória'),
+  van_id: yup.string().required('Van obrigatória'),
 }) 
 
 export default function AdicionarRota() {
-  const [passengers, setPassengers] = useState<string[]>([])
-  const [qtdePassengers, setQtdePassengers] = useState(1)
-  const [passengersInputs, setPassengersInputs] = useState<string[]>(['passageiro1'])
-
+  const [vans, setVans] = useState<Van[]>()
+  const [alerta, setAlerta] = useState(false)
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(AddRouteSchema)
   })
 
+  const { data, isLoading, error } = useQuery('vans', async () => {
+    const response = await api.get('/vans')
+    const data = response.data
+    setVans(data)
+
+    return data
+  })
+
   const { errors } = formState
-  const handleAddAddress: SubmitHandler<AddRouteFormData> = (values) => {
-    console.log(values)
+  const handleAddRoute: SubmitHandler<AddRouteFormData> = async (values, e) => {
+    const rotaAdicionada = await createRota(values)
+
+    if (!!rotaAdicionada) {
+      setAlerta(true)
+    }
+    e?.target.reset()
   }
 
-  function handleAddPassengerInput() {
-    let newQtde = qtdePassengers + 1
-    setQtdePassengers(newQtde)
-    const newPassenger = `passageiro${newQtde}`
-    setPassengersInputs([
-      ...passengersInputs,
-      newPassenger
-    ])
-  }
-
-  function handleAddPassenger(event: ChangeEvent<HTMLSelectElement>) {
-    setPassengers([
-      ...passengers,
-      event.target.value
-    ])
+  function closeAlert() {
+    setAlerta(false)
   }
 
   return (
     <Box>
       <Header />
       <Divider />
-      <FlexContainer title="Adicionar Rota" onSubmit={handleSubmit(handleAddAddress)}>
+      <FlexContainer title="Adicionar Rota" onSubmit={handleSubmit(handleAddRoute)}>
         <Flex as="form" wrap="wrap" justify="space-between" sx={{ gap: "1em 0"}}>
-          <Input type="text" label="Nome" maxW={["100%", "48%"]} error={ errors.nome } {...register('nome')} />
-          <Select label="Destino" maxW={["100%", "48%"]} error={ errors.destino } {...register('destino')}>
-            <option value="1">Rua Luiz Razera</option>
-            <option value="2">Rua Professora Carolina Mendes Thame</option>
+          {alerta && (
+            <Alert status="success">
+              <AlertIcon />
+              <AlertTitle mr={2} color="green.500">Rota cadastrada com sucesso!</AlertTitle>
+              <CloseButton onClick={closeAlert} position="absolute" right="8px" top="8px" />
+            </Alert>
+          )}
+          <Input type="text" label="Descrição" maxW={["100%", "48%"]} error={ errors.descricao } {...register('descricao')} />
+          <Select label="Van" maxW={["100%", "48%"]} error={ errors.van_id } {...register('van_id')}>
+            <option value="">Selecione uma Van</option>
+            {vans?.map((van, i) => (
+              <option value={van.id} key={i}>{van.placa}</option>
+            ))}
           </Select>
-          <Input type="text" label="Quantidade de Passageiros" maxW={["100%", "48%"]} error={ errors.qtdePassageiros } {...register('qtdePassageiros')} />
-          <Input type="text" label="Horário" maxW={["100%", "48%"]} error={ errors.horario } {...register('horario')} />
-          {passengersInputs.map((item) => (
-            <Select label="Passageiro" key={item} maxW={["100%", "48%"]} {...register(`${item}`)}>
-              <option value="0">Selecione um Passageiro</option>
-              <option value="3">Gabriel Piccoli de Marcos</option>
-              <option value="4">Leticia Pinheiro Lazarin</option>
-            </Select>
-          ))}
           
-          {/* <Input type="text" value={passengers} error={ errors.passageiros } {...register('passageiros')} /> */}
           <Box w="100%">
-            <Button type="button" colorScheme="teal" size="lg" onClick={handleAddPassengerInput}>Adicionar Passageiro</Button>
-            <Button type="submit" ml="4" colorScheme="blue" size="lg" isLoading={formState.isSubmitting} >Salvar</Button>
+            <Button type="submit"  colorScheme="blue" size="lg" isLoading={formState.isSubmitting} >Salvar</Button>
           </Box>
         </Flex>
       </FlexContainer>
