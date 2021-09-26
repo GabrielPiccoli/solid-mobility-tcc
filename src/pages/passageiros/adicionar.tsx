@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Flex } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Alert, AlertIcon, AlertTitle, CloseButton } from "@chakra-ui/react";
 import { FlexContainer } from "../../components/FlexContainer";
 import { Header } from "../../components/Header";
 import * as yup from 'yup'
@@ -8,33 +8,73 @@ import { Input } from "../../components/Form/Input";
 import { Select } from "../../components/Form/Select";
 import { GetServerSideProps } from "next";
 import { withSSRAuth } from "../../utils/withSSRAuth";
+import { useQuery } from "react-query";
+import { api } from "../../services/apiClient";
+import { useState } from "react";
+import { createPassageiro } from "../../services/passageiros/adicionarPassageiro";
 
 type AddPassengerFormData = {
-  nome: String
-  cpf: String
-  email: String
-  nascimento: Date
-  ponto: Number
-  destino: Number
+  nome: string
+  email: string
+  cpf: string
+  parada_id: string
+}
+
+type Endereco = {
+  id: string
+  logradouro: string
+  numero: number
+}
+
+type Parada = {
+  id: string
+  endereco_id: string
+  endereco: Endereco
 }
 
 const AddPassengerSchema = yup.object().shape({
   nome: yup.string().required('Nome obrigatório'),
-  cpf: yup.string().required('CPF obrigatório'),
   email: yup.string().required('E-mail obrigatório').email('E-mail inválido'),
-  nascimento: yup.date().required('Date de nascimento obrigatória'),
-  ponto: yup.number().required('Ponto obrigatório'),
-  destino: yup.number().required('Destino obrigatório')
+  cpf: yup.string().required('CPF obrigatório'),
+  parada_id: yup.string().required('Ponto obrigatório'),
 }) 
 
 export default function AdicionarPassageiro() {
+  const [paradas, setParadas] = useState<Parada[]>()
+  const [alerta, setAlerta] = useState(false)
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(AddPassengerSchema)
   })
 
+  const { data, isLoading, error } = useQuery('paradas-passageiros', async () => {
+    const paradasResponse = await api.get('/paradas')
+    const paradasData = paradasResponse.data
+
+    const enderecosResponse = await api.get('/enderecos')
+    const enderecosData = enderecosResponse.data
+
+    const newParadas = paradasData.map((parada: Parada) => ({
+      ...parada,
+      endereco: enderecosData.find((endereco: Endereco) => endereco.id === parada.endereco_id)
+    }))
+
+    setParadas(newParadas)
+    
+    return newParadas
+  })
+
   const { errors } = formState
-  const handleAddPassenger: SubmitHandler<AddPassengerFormData> = (values) => {
-    console.log(values)
+  const handleAddPassenger: SubmitHandler<AddPassengerFormData> = async (values, e) => {
+    const passageiroAdicionado = await createPassageiro(values)
+
+    if (!!passageiroAdicionado) {
+      setAlerta(true)
+    }
+    e?.target.reset()
+  }
+
+  function closeAlert() {
+    setAlerta(false)
   }
 
   return (
@@ -43,17 +83,21 @@ export default function AdicionarPassageiro() {
       <Divider />
       <FlexContainer title="Adicionar Passageiro" onSubmit={handleSubmit(handleAddPassenger)}>
         <Flex as="form" wrap="wrap" justify="space-between" sx={{ gap: "1em 0"}}>
+          {alerta && (
+            <Alert status="success">
+              <AlertIcon />
+              <AlertTitle mr={2} color="green.500">Passageiro cadastrado com sucesso!</AlertTitle>
+              <CloseButton onClick={closeAlert} position="absolute" right="8px" top="8px" />
+            </Alert>
+          )}
           <Input type="text" label="Nome" maxW={["100%", "48%"]} error={ errors.nome } {...register('nome')} />
-          <Input type="text" label="CPF" maxW={["100%", "48%"]} error={ errors.cpf } {...register('cpf')} />
           <Input type="email" label="E-mail" maxW={["100%", "48%"]} error={ errors.email } {...register('email')} />
-          <Input type="date" label="Data de Nascimento" maxW={["100%", "48%"]} error={ errors.nascimento } {...register('nascimento')} />
-          <Select label="Ponto" maxW={["100%", "48%"]} error={ errors.ponto} {...register('ponto')}>
-            <option value="1">Rua Luiz Razera</option>
-            <option value="2">Rua Professora Carolina Mendes Thame</option>
-          </Select>
-          <Select label="Destino" maxW={["100%", "48%"]} error={ errors.destino} {...register('destino')}>
-            <option value="1">Rua Luiz Razera</option>
-            <option value="2">Rua Professora Carolina Mendes Thame</option>
+          <Input type="text" label="CPF" maxW={["100%", "48%"]} error={ errors.cpf } {...register('cpf')} />
+          <Select label="Ponto" maxW={["100%", "48%"]} error={ errors.parada_id } {...register('parada_id')}>
+            <option value="">Selecione um Ponto</option>
+            {paradas?.map((parada) => (
+              <option value={parada.id} key={parada.id}>{parada.endereco.logradouro}, {parada.endereco.numero.toString()}</option>
+            ))}
           </Select>
 
           <Button type="submit" mt="6" colorScheme="blue" size="lg" isLoading={formState.isSubmitting} >Salvar</Button>
