@@ -11,10 +11,10 @@ type User = {
 interface ProfileProps {
   showProfileData?: boolean
   isLeft?: boolean
-  profileUser: User
+  profileUser?: User
 }
 
-export function Profile({ showProfileData = true, isLeft = false, profileUser }: ProfileProps) {  
+export function Profile({ showProfileData = true, isLeft = false, profileUser = undefined }: ProfileProps) {  
   return (
     <Flex align="center">
       <Box mr="4" ml={isLeft ? "4" : "0"} textAlign={isLeft ? "left" : "right"} order={1}>

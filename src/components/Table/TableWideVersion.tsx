@@ -2,6 +2,7 @@ import { Button, Icon, Table, TableProps, Tbody, Td, Text, Th, Thead, Tooltip, T
 import { Profile } from "../Header/Profile";
 import LinkNext from 'next/link'
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import { FaRoute } from "react-icons/fa";
 
 type bodyContent = {
   data: string[]
@@ -14,9 +15,18 @@ interface TableWideVersion extends TableProps {
   editLink: string;
   deleteLink: string;
   showProfile?: boolean;
+  isRoute?: boolean;
 }
 
-export function TableWideVersion({ headers, bodyData, editLink, deleteLink, showProfile = true, ...rest}: TableWideVersion) {
+export function TableWideVersion({ 
+  headers, 
+  bodyData, 
+  editLink, 
+  deleteLink, 
+  showProfile = true, 
+  isRoute = false, 
+  ...rest}: TableWideVersion) 
+{
   return (
     <Table colorScheme="whiteAlpha" {...rest}>
       <Thead>
@@ -34,7 +44,20 @@ export function TableWideVersion({ headers, bodyData, editLink, deleteLink, show
             {body.data.map((content, j) => (
               <Td key={j}><Text>{content}</Text></Td>
             ))}
-            <Td w="155px">
+            <Td w={ isRoute ? "233px" : "155px"}>
+              {isRoute && (
+                <LinkNext href={`rotas/mapa/${body.id}`} passHref>
+                  <Button
+                    as="a"
+                    size="sm"
+                    fontSize="sm"
+                    colorScheme="blue"
+                    textAlign="center"
+                  >
+                    <Icon as={FaRoute} fontSize="20" />
+                  </Button>
+                </LinkNext>
+              )}
               <LinkNext href={`${editLink}/${body.id}`} passHref>
                 <Button
                   as="a"
@@ -42,6 +65,7 @@ export function TableWideVersion({ headers, bodyData, editLink, deleteLink, show
                   fontSize="sm"
                   colorScheme="yellow"
                   textAlign="center"
+                  ml={4}
                 >
                   <Icon as={AiOutlineEdit} fontSize="20" />
                 </Button>

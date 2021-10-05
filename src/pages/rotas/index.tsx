@@ -77,7 +77,8 @@ export default function Rota() {
             bodyData={bodyContent}
             editLink="/rotas/editar"
             deleteLink="/rotas/excluir"
-            />         
+            isRoute={true}
+          />         
           ) : (
             <>
               {bodyContent.map(dados => (
@@ -88,6 +89,8 @@ export default function Rota() {
                   data={dados.data}
                   editLink={`/rotas/editar/${dados.id}`}
                   deleteLink={`/rotas/excluir/${dados.id}`}
+                  isRoute={true}
+                  routeId={dados.id}
                 />
               ))}
             </>
