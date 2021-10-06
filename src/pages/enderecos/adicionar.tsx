@@ -9,6 +9,7 @@ import { GetServerSideProps } from "next";
 import { withSSRAuth } from "../../utils/withSSRAuth";
 import { createEndereco } from "../../services/enderecos/adicionarEndereco";
 import { useState } from "react";
+import { api } from "../../services/apiClient";
 
 type AddAddressFormData = {
   logradouro: string
@@ -39,7 +40,14 @@ export default function AdicionarEndereco() {
 
   const { errors } = formState
   const handleAddAddress: SubmitHandler<AddAddressFormData> = async (values, e) => {
-    const enderecoAdicionado = await createEndereco(values)
+    const endereco = `${values.logradouro}, ${values.numero}, ${values.cidade}`
+    const coordResponse = await api.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${endereco}.json?access_token=pk.eyJ1IjoiZ2FicmllbHBpY2NvbGkiLCJhIjoiY2t1Mzh2d2cyMXJ0YTJ0b3F3eGwydjR6cyJ9.T8aeobVwmyRGCzAIluQWOw&autocomplete=true`)
+    const coordinates = `${coordResponse.data.features[0].center[0]}, ${coordResponse.data.features[0].center[1]}`
+    
+    const enderecoAdicionado = await createEndereco({
+      ...values,
+      coordinates
+    })
 
     if (!!enderecoAdicionado) {
       setAlerta(true)

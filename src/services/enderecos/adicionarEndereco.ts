@@ -8,9 +8,10 @@ type Endereco = {
   cidade: string
   estado: string
   cep: string
+  coordinates: string
 } 
 
-export async function createEndereco({ logradouro, numero, complemento, bairro, cidade, estado, cep }: Endereco) {
+export async function createEndereco({ logradouro, numero, complemento, bairro, cidade, estado, cep, coordinates }: Endereco) {
   try {
     const response = await api.post('/enderecos', { 
       logradouro,
@@ -19,7 +20,8 @@ export async function createEndereco({ logradouro, numero, complemento, bairro, 
       bairro,
       cidade,
       estado,
-      cep
+      cep,
+      coordinates
      })
     const endereco = response.data
 

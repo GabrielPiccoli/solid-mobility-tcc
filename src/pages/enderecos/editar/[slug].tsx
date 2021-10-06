@@ -62,9 +62,14 @@ export default function EditarEndereco({params}: EditarEnderecoProps) {
 
   const { errors } = formState
   const handleEditAddress: SubmitHandler<UpdateAddressFormData> = async (values, e) => {
+    const endereco = `${values.logradouro}, ${values.numero}, ${values.cidade}`
+    const coordResponse = await api.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${endereco}.json?access_token=pk.eyJ1IjoiZ2FicmllbHBpY2NvbGkiLCJhIjoiY2t1Mzh2d2cyMXJ0YTJ0b3F3eGwydjR6cyJ9.T8aeobVwmyRGCzAIluQWOw&autocomplete=true`)
+    const coordinates = `${coordResponse.data.features[0].center[0]}, ${coordResponse.data.features[0].center[1]}`
+
     const enderecoAtualizado = await updateEndereco({
       id,
-      ...values
+      ...values,
+      coordinates
     })
 
     if (!!enderecoAtualizado) {

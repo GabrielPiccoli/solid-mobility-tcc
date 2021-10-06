@@ -22,6 +22,20 @@ export default function MapaRota({ params }: MapaRotaProps) {
     return data
   })
 
+  // const dataWithCoords = data.map(async (parada: any) => {
+  //   const endereco = `${parada?.endereco.logradouro}, ${parada?.endereco.numero}`
+  //   let coord: any
+  //   const coordResponse = await api.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${endereco}.json?access_token=pk.eyJ1IjoiZ2FicmllbHBpY2NvbGkiLCJhIjoiY2t1Mzh2d2cyMXJ0YTJ0b3F3eGwydjR6cyJ9.T8aeobVwmyRGCzAIluQWOw&autocomplete=true`)
+  //   .then(response => {
+  //     return {
+  //       ...parada,
+  //       coord: `${response.data.features[0].center[0]}, ${response.data.features[0].center[1]}`
+  //     }
+  //   })
+  // })
+
+  // console.log(dataWithCoords)
+
   return (
     <Box> 
       <Header />
@@ -31,10 +45,11 @@ export default function MapaRota({ params }: MapaRotaProps) {
            {isLoading ? (
              <Spinner />
            ) : (
-             data.map((parada: any) => (
-              <Box>{parada.endereco.logradouro}</Box>
-             ))
-           )}
+            //  data.map((parada: any) => (
+              //  ))
+              //   
+              <Box>teste</Box>
+              )}
          </Box>
       </FlexContainer> 
     </Box>

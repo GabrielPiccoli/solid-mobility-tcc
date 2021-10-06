@@ -9,9 +9,10 @@ type Endereco = {
   cidade: string
   estado: string
   cep: string
+  coordinates: string
 } 
 
-export async function updateEndereco({ id, logradouro, numero, complemento, bairro, cidade, estado, cep }: Endereco) {
+export async function updateEndereco({ id, logradouro, numero, complemento, bairro, cidade, estado, cep, coordinates }: Endereco) {
   try {
     const response = await api.put('/enderecos', { 
       id,
@@ -21,7 +22,8 @@ export async function updateEndereco({ id, logradouro, numero, complemento, bair
       bairro,
       cidade,
       estado,
-      cep
+      cep,
+      coordinates
      })
     const endereco = response.data
 
