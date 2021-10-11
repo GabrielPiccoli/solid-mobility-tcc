@@ -44,7 +44,7 @@ export function TableWideVersion({
             {body.data.map((content, j) => (
               <Td key={j}><Text>{content}</Text></Td>
             ))}
-            <Td w={ isRoute ? "233px" : "175px"}>
+            <Td w={ isRoute ? "233px" : "155px"}>
               {isRoute && (
                 <LinkNext href={`rotas/mapa/${body.id}`} passHref>
                   <Button
@@ -65,7 +65,7 @@ export function TableWideVersion({
                   fontSize="sm"
                   colorScheme="yellow"
                   textAlign="center"
-                  ml={ isRoute ? 0 : 4}
+                  ml={ isRoute ? 4 : 0}
                 >
                   <Icon as={AiOutlineEdit} fontSize="20" />
                 </Button>
